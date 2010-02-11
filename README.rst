@@ -24,6 +24,11 @@ What does not work (yet)
 
 * Read only traits, DelegatesTo, or PrototypedFrom.
 
+LICENSE
+=======
+
+txtraits is available under the MIT license (see LICENSE.txt).
+
 To run the examples
 ===================
 
