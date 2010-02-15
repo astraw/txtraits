@@ -189,10 +189,8 @@ class RemoteMirror(RemoteHasTraitsProxy):
     def default_traits_view(self):
         import enthought.traits.ui.api as traits_ui
 
-        # define a mirror view
         items = [ traits_ui.Item( name )
                   for name in self._initial_traits.keys() ]
-        print 'view made'
         return traits_ui.View(traits_ui.Group(*items))
 
 ignore_remote_mirror_traits = [n for n in RemoteMirror().trait_names()]
