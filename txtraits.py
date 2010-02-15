@@ -4,10 +4,6 @@ import enthought.traits.api as traits
 import enthought.traits.trait_handlers
 import warnings
 import platform, os
-try:
-    import enthought.traits.ui.api as traits_ui
-except ImportError:
-    traits_ui = None
 
 reserved_trait_names = ['trait_added','trait_modified']
 
@@ -190,6 +186,15 @@ class RemoteMirror(RemoteHasTraitsProxy):
             dlist.append(d)
         self.construction_deferred = defer.DeferredList(dlist)
 
+    def default_traits_view(self):
+        import enthought.traits.ui.api as traits_ui
+
+        # define a mirror view
+        items = [ traits_ui.Item( name )
+                  for name in self._initial_traits.keys() ]
+        print 'view made'
+        return traits_ui.View(traits_ui.Group(*items))
+
 ignore_remote_mirror_traits = [n for n in RemoteMirror().trait_names()]
 
 def get_trait_value(traited_instance,trait_name):
@@ -363,12 +368,6 @@ class TraitsNetHub(pb.Root):
         return d
 
     def return_mirror(self,results,mirror):
-        if traits_ui is not None:
-            # define a mirror view
-            items = [ traits_ui.Item( name )
-                      for name in mirror._initial_traits.keys() ]
-            mirror.trait_view('mirror_view',
-                              traits_ui.View(traits_ui.Group(*items)))
         return mirror
 
     def remote_register_hub(self,remote,initial=True):
